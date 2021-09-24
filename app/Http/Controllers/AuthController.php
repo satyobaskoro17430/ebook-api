@@ -10,8 +10,8 @@ class AuthController extends Controller
         return[
             'nis'=>3103119174,
             'name'=>'Satyo Baskoro',
-            'phone'=>'085641520039',
-            'class'=>'6281770680555'
+            'phone'=>'6281770680555',
+            'class'=>'085641520039'
         ];
     }
 }
