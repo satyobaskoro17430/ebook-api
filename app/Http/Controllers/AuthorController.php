@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Author;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Author;
 
 class AuthorController extends Controller
 {
@@ -15,9 +14,10 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        return response()->json(
-            Author::all()
-        );
+        return response()->json([
+            "message" => "Daftar Author",
+            "data" => Author::all()
+        ]);
     }
 
     /**
@@ -38,35 +38,15 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-
-        $validator = Validator::make(
-            $input,
-            [
-                'name' => 'required',
-                'date_of_birth' => 'required | date',
-                'place_of_birth' => 'required',
-                'gender' => 'required',
-                'email' => 'required',
-                'hp' => 'required'
-            ]
-        );
-
-        if ($validator -> fails()){
-            return response()->json(
-                $validator->errors(),
-                400
-            );
-        }
-
-        Author::create($input);
-
-        return response()->json(
-            [
-                'Author created successfully'
-            ],
-            201
-        );
+        $author = new Author();
+        $author->name = $request->name;
+        $author->date_of_birth = $request->date_of_birth;
+        $author->place_of_birth = $request->place_of_birth;
+        $author->gender = $request->gender;
+        $author->email = $request->email;
+        $author->hp = $request->hp;
+        $author->save();
+        return response()->json($author, 202); 
     }
 
     /**
@@ -77,9 +57,8 @@ class AuthorController extends Controller
      */
     public function show($id)
     {
-        return response()->json(
-            Author::findOrFail($id)
-        );
+        $author = Author::find($id);
+        return response()->json($author);
     }
 
     /**
@@ -102,40 +81,15 @@ class AuthorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $input = $request->all();
-
-        $validator = Validator::make(
-            $input,
-            [
-                'name' => 'required',
-                'date_of_birth' => 'required | date',
-                'place_of_birth' => 'required',
-                'gender' => 'required',
-                'email' => 'required',
-                'hp' => 'required'
-            ]
-        );
-
-        if ($validator -> fails()){
-            return response()->json(
-                $validator->errors(),
-                400
-            );
-        }
-
-        $author = Author::findOrFail($id);
-        $author->name = $input['name'];
-        $author->date_of_birth = $input['date_of_birth'];
-        $author->place_of_birth = $input['place_of_birth'];
-        $author->gender = $input['gender'];
-        $author->email = $input['email'];
-        $author->hp = $input['hp'];
+        $author = Author::find($id);
+        $author->name = $request->name;
+        $author->date_of_birth = $request->date_of_birth;
+        $author->place_of_birth = $request->place_of_birth;
+        $author->gender = $request->gender;
+        $author->email = $request->email;
+        $author->hp = $request->hp;
         $author->save();
-
-        return response()->json(
-            'Author edited successfully',
-            200
-        );
+        return response()->json($author, 202);
     }
 
     /**
@@ -146,10 +100,11 @@ class AuthorController extends Controller
      */
     public function destroy($id)
     {
-        Author::destroy($id);
-        return response()->json(
-            'Author deleted successfully',
-            200
-        );
+        $author = Author::findOrFail($id);
+        $author->delete();
+        return response()->json([
+            "message" => "Data Author Telah dihapus",
+            "data" => $author
+        ]);
     }
 }

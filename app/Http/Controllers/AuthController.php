@@ -8,10 +8,10 @@ class AuthController extends Controller
 {
     public function me(){
         return [
-            'NIS' => 3103119104,
-            'Name' => 'Setyo Nugroho',
+            'NIS' => 3103119178,
+            'Name' => 'Satyo Baskoro',
             'Gender' => 'Male',
-            'Phone' => '081229559489',
+            'Phone' => '085641520039',
             'Class' => 'XII RPL 6'
         ];
     }
